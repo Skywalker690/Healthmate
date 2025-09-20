@@ -1,11 +1,12 @@
 package com.skywalker.backend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import com.skywalker.backend.domain.STATUS;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class Appointment {
     private LocalTime appointmentTime;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.SCHEDULED;
+    private STATUS status = STATUS.SCHEDULED;
 
     private String notes; // optional for extra info
 
@@ -46,7 +47,5 @@ public class Appointment {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public enum Status {
-        SCHEDULED, COMPLETED, CANCELLED
-    }
+
 }
