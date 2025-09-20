@@ -1,16 +1,16 @@
 package com.skywalker.backend.model;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import com.skywalker.backend.domain.STATUS;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Data

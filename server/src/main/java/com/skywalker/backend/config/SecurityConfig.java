@@ -1,5 +1,7 @@
-package com.skywalker.backend.security;
+package com.skywalker.backend.config;
 
+import com.skywalker.backend.security.CustomUserDetailsService;
+import com.skywalker.backend.security.JWTAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;

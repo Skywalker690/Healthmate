@@ -1,15 +1,16 @@
 package com.skywalker.backend.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.AllArgsConstructor;
+import com.skywalker.backend.domain.STATUS;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -30,7 +31,7 @@ public class Patient {
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender; // MALE, FEMALE, OTHER
+    private STATUS gender; // MALE, FEMALE, OTHER
 
     private String contactNumber;
     private String address;
@@ -45,7 +46,4 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
-    public enum Gender {
-        MALE, FEMALE, OTHER
-    }
 }
