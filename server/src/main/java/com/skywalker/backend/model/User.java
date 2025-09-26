@@ -41,6 +41,7 @@ public class User implements UserDetails {
     @JsonIgnore // to not expose passwords in API
     private String password;
 
+    @Column(nullable = true)
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)

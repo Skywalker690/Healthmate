@@ -2,19 +2,17 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.model.Doctor;
 import com.skywalker.backend.service.repo.DoctorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/doctors")
 public class DoctorController {
 
     private final DoctorService doctorService;
-
-    public DoctorController(DoctorService doctorService) {
-        this.doctorService = doctorService;
-    }
 
     @PostMapping
     public Doctor createDoctor(@RequestBody Doctor doctor) {
