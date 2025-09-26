@@ -1,21 +1,13 @@
 package com.skywalker.backend.service.repo;
 
 import com.skywalker.backend.model.Doctor;
-import com.skywalker.backend.dto.DoctorDTO;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public interface DoctorService {
-
-    Doctor getDoctorById(Long id);
-
+    Doctor createDoctor(Doctor doctor);
+    Optional<Doctor> getDoctorById(Long id);
     List<Doctor> getAllDoctors();
-
-    Doctor createDoctor(DoctorDTO dto);
-
-    Doctor updateDoctor(Long id, DoctorDTO dto);
-
+    List<Doctor> getDoctorsBySpecialization(String specialization);
     void deleteDoctor(Long id);
 }

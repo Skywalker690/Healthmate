@@ -1,21 +1,15 @@
 package com.skywalker.backend.service.repo;
 
 import com.skywalker.backend.model.Appointment;
-import com.skywalker.backend.dto.AppointmentDTO;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public interface AppointmentService {
-
-    Appointment getAppointmentById(Long id);
-
+    Appointment createAppointment(Appointment appointment);
+    Optional<Appointment> getAppointmentById(Long id);
+    List<Appointment> getAppointmentsByDoctor(Long doctorId);
+    List<Appointment> getAppointmentsByPatient(Long patientId);
     List<Appointment> getAllAppointments();
-
-    Appointment createAppointment(AppointmentDTO dto);
-
-    Appointment updateAppointment(Long id, AppointmentDTO dto);
-
+    Appointment updateAppointmentStatus(Long id, String status);
     void deleteAppointment(Long id);
 }

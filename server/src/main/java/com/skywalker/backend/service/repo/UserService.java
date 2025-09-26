@@ -1,19 +1,13 @@
 package com.skywalker.backend.service.repo;
 
-import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.User;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public interface UserService {
-
-    User getUserById(Long id);
-
+    User createUser(User user);
+    Optional<User> getUserById(Long id);
+    Optional<User> getUserByEmail(String email);
     List<User> getAllUsers();
-
-    User updateUser(Long id, Response dto);
-
     void deleteUser(Long id);
 }
