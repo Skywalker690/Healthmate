@@ -29,6 +29,7 @@ public class Patient {
     private User user;
 
     private LocalDate dateOfBirth;
+    private Integer age;
 
     @Enumerated(EnumType.STRING)
     private STATUS gender; // MALE, FEMALE, OTHER
