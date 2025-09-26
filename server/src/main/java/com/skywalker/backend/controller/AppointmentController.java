@@ -2,19 +2,17 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.model.Appointment;
 import com.skywalker.backend.service.repo.AppointmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-
-    public AppointmentController(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
-    }
 
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment) {
