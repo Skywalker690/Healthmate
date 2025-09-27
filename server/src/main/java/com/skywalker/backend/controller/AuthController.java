@@ -1,8 +1,10 @@
 package com.skywalker.backend.controller;
 
 import com.skywalker.backend.dto.LoginRequest;
+import com.skywalker.backend.dto.RegisterRequest;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.User;
+import com.skywalker.backend.service.impl.UserService;
 import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +15,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final IUserService IUserService;
+    private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Response> register(@RequestBody User user) {
-        Response response = IUserService.register(user);
-        return ResponseEntity.status(response.getStatusCode()).body(response);
+    public Response register(@RequestBody RegisterRequest request) {
+        return userService.register(request);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody LoginRequest loginRequest) {
-        Response response = IUserService.login(loginRequest);
+        Response response = userService.login(loginRequest);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

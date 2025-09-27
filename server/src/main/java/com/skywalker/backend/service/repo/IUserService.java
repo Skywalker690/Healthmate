@@ -1,6 +1,7 @@
 package com.skywalker.backend.service.repo;
 
 import com.skywalker.backend.dto.LoginRequest;
+import com.skywalker.backend.dto.RegisterRequest;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.User;
 import java.util.List;
@@ -13,6 +14,6 @@ public interface IUserService {
     List<User> getAllUsers();
     void deleteUser(Long id);
 
-    Response register(User user);
+    Response register(RegisterRequest request);
     Response login(LoginRequest loginRequest);
 }

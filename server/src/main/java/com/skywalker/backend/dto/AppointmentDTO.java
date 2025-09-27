@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 public class AppointmentDTO {
 
     private String notes;
+    private STATUS status;
     private LocalDateTime appointmentDateTime;
 
-    private STATUS status;
     private Doctor doctor;
     private Patient patient;
 }

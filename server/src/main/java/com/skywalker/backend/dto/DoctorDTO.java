@@ -15,7 +15,7 @@ import java.util.List;
 public class DoctorDTO {
 
     private Integer experience;
-    private String contactNumber;
+    private String docNumber;
     private String specialization;
     private String availableHours;
 

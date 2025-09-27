@@ -1,5 +1,6 @@
 package com.skywalker.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotBlank(message = "Password is required")
     private String password;
 

@@ -1,7 +1,10 @@
 package com.skywalker.backend.service.impl;
 
+import com.skywalker.backend.domain.GENDER;
+import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.domain.USER_ROLE;
 import com.skywalker.backend.dto.LoginRequest;
+import com.skywalker.backend.dto.RegisterRequest;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Doctor;
@@ -11,8 +14,6 @@ import com.skywalker.backend.repository.DoctorRepository;
 import com.skywalker.backend.repository.PatientRepository;
 import com.skywalker.backend.repository.UserRepository;
 import com.skywalker.backend.security.JwtTokenProvider;
-import com.skywalker.backend.service.repo.IDoctorService;
-import com.skywalker.backend.service.repo.IPatientService;
 import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +21,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,33 +39,50 @@ public class UserService implements IUserService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
-
-    public Response register(User user) {
+    //@Transactional
+    public Response register(RegisterRequest request) {
         Response response = new Response();
         try {
-            // Check if email already exists
-            if (userRepository.existsByEmail(user.getEmail())) {
-                throw new OurException(user.getEmail() + " already exists");
+            // Validate password
+            if (request.getPassword() == null || request.getPassword().isBlank()) {
+                throw new OurException("Password cannot be null or empty");
             }
 
-            // Encode password
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole(USER_ROLE.valueOf(user.getRole().name()));
+            // Check for duplicate email
+            if (userRepository.existsByEmail(request.getEmail())) {
+                throw new OurException("Email already exists: " + request.getEmail());
+            }
 
-            User savedUser = userRepository.save(user);
-            switch (savedUser.getRole()) {
-                case ROLE_PATIENT:
-                    Patient patient = new Patient();
-                    patient.setUser(savedUser);
-                    patientRepository.save(patient);
-                    break;
-                case ROLE_DOCTOR:
-                    Doctor doctor = new Doctor();
-                    doctor.setUser(savedUser);
-                    doctorRepository.save(doctor);
-                    break;
-                case ROLE_ADMIN:
-                    break;
+            // Create and save User first
+            User user = new User();
+            user.setName(request.getName());
+            user.setEmail(request.getEmail());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setRole(request.getRole() != null ? request.getRole() : USER_ROLE.ROLE_PATIENT);
+
+            User savedUser = userRepository.save(user); // Persist User first
+
+            // Now handle Patient or Doctor
+            if (savedUser.getRole() == USER_ROLE.ROLE_PATIENT) {
+                Patient patient = new Patient();
+                patient.setUser(savedUser);
+                patient.setAddress(request.getAddress() != null ? request.getAddress() : "Not Provided");
+                patient.setContactNumber(request.getContactNumber() != null ? request.getContactNumber() : "Not Provided");
+                patient.setGender(request.getGender() != null
+                        ? GENDER.valueOf(request.getGender().toUpperCase())
+                        : GENDER.OTHER);
+
+                if (request.getDateOfBirth() != null) {
+                    patient.setDateOfBirth(LocalDate.parse(request.getDateOfBirth()));
+                }
+
+                patientRepository.save(patient);
+            }
+            else if (savedUser.getRole() == USER_ROLE.ROLE_DOCTOR) {
+                Doctor doctor = new Doctor();
+                doctor.setUser(savedUser);
+                doctor.setSpecialization(request.getSpecialization() != null ? request.getSpecialization() : "General");
+                doctorRepository.save(doctor);
             }
 
             response.setStatusCode(200);
@@ -78,6 +98,8 @@ public class UserService implements IUserService {
 
         return response;
     }
+
+
 
 
     @Override
@@ -128,6 +150,8 @@ public class UserService implements IUserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+
 
 
 }

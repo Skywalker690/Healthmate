@@ -1,5 +1,6 @@
 package com.skywalker.backend.model;
 
+import com.skywalker.backend.domain.GENDER;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class Patient {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private STATUS gender;
+    private GENDER gender;
 
     @Column(unique = true, nullable = false)
     private String contactNumber;
