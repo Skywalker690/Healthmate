@@ -2,7 +2,8 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Patient;
-import com.skywalker.backend.service.repo.PatientService;
+import com.skywalker.backend.service.impl.PatientService;
+import com.skywalker.backend.service.repo.IPatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

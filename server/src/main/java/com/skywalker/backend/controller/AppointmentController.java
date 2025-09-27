@@ -2,7 +2,7 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Appointment;
-import com.skywalker.backend.service.repo.AppointmentService;
+import com.skywalker.backend.service.repo.IAppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,40 +13,40 @@ import java.util.List;
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
-    private final AppointmentService appointmentService;
+    private final IAppointmentService IAppointmentService;
 
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment) {
-        return appointmentService.createAppointment(appointment);
+        return IAppointmentService.createAppointment(appointment);
     }
 
     @GetMapping
     public List<Appointment> getAllAppointments() {
-        return appointmentService.getAllAppointments();
+        return IAppointmentService.getAllAppointments();
     }
 
     @GetMapping("/{id}")
     public Appointment getAppointmentById(@PathVariable Long id) {
-        return appointmentService.getAppointmentById(id).orElseThrow(() -> new OurException("Appointment not found"));
+        return IAppointmentService.getAppointmentById(id).orElseThrow(() -> new OurException("Appointment not found"));
     }
 
     @GetMapping("/doctor/{doctorId}")
     public List<Appointment> getAppointmentsByDoctor(@PathVariable Long doctorId) {
-        return appointmentService.getAppointmentsByDoctor(doctorId);
+        return IAppointmentService.getAppointmentsByDoctor(doctorId);
     }
 
     @GetMapping("/patient/{patientId}")
     public List<Appointment> getAppointmentsByPatient(@PathVariable Long patientId) {
-        return appointmentService.getAppointmentsByPatient(patientId);
+        return IAppointmentService.getAppointmentsByPatient(patientId);
     }
 
     @PutMapping("/{id}/status/{status}")
     public Appointment updateAppointmentStatus(@PathVariable Long id, @PathVariable String status) {
-        return appointmentService.updateAppointmentStatus(id, status);
+        return IAppointmentService.updateAppointmentStatus(id, status);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAppointment(@PathVariable Long id) {
-        appointmentService.deleteAppointment(id);
+        IAppointmentService.deleteAppointment(id);
     }
 }

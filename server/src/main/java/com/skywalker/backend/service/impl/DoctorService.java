@@ -2,20 +2,18 @@ package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.model.Doctor;
 import com.skywalker.backend.repository.DoctorRepository;
-import com.skywalker.backend.service.repo.DoctorService;
+import com.skywalker.backend.service.repo.IDoctorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DoctorServiceImpl implements DoctorService {
+@RequiredArgsConstructor
+public class DoctorService implements IDoctorService {
 
     private final DoctorRepository doctorRepository;
-
-    public DoctorServiceImpl(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
-    }
 
     @Override
     public Doctor createDoctor(Doctor doctor) {

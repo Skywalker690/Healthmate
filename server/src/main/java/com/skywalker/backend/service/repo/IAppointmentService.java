@@ -4,7 +4,7 @@ import com.skywalker.backend.model.Appointment;
 import java.util.List;
 import java.util.Optional;
 
-public interface AppointmentService {
+public interface IAppointmentService {
     Appointment createAppointment(Appointment appointment);
     Optional<Appointment> getAppointmentById(Long id);
     List<Appointment> getAppointmentsByDoctor(Long doctorId);

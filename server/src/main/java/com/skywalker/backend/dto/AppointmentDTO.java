@@ -10,12 +10,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class AppointmentDTO {
-    private Doctor doctor;
-    private Patient patient;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private String notes;
+    private STATUS status;
     private LocalDateTime appointmentDateTime;
 
-    private String reason; // optional: reason for appointment
-    private STATUS status = STATUS.SCHEDULED; // default
+    private Doctor doctor;
+    private Patient patient;
 }

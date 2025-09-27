@@ -2,17 +2,17 @@ package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.model.Appointment;
 import com.skywalker.backend.repository.AppointmentRepository;
-import com.skywalker.backend.service.repo.AppointmentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.skywalker.backend.service.repo.IAppointmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AppointmentServiceImpl implements AppointmentService {
+@RequiredArgsConstructor
+public class AppointmentService implements IAppointmentService {
 
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+    private final AppointmentRepository appointmentRepository;
 
     @Override
     public Appointment createAppointment(Appointment appointment) {

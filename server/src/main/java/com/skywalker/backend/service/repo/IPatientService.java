@@ -4,7 +4,7 @@ import com.skywalker.backend.model.Patient;
 import java.util.List;
 import java.util.Optional;
 
-public interface PatientService {
+public interface IPatientService {
     Patient createPatient(Patient patient);
     Optional<Patient> getPatientById(Long id);
     List<Patient> getAllPatients();
