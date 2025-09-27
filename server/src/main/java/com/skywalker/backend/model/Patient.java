@@ -23,18 +23,17 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // One-to-One with User
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    @Column(nullable = false)
     private LocalDate dateOfBirth;
-    private Integer age;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private STATUS gender; // MALE, FEMALE, OTHER
+    private STATUS gender;
 
+    @Column(unique = true, nullable = false)
     private String contactNumber;
+
+    @Column(nullable = false)
     private String address;
 
     @CreationTimestamp
@@ -46,5 +45,10 @@ public class Patient {
     // One patient -> Many appointments
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
+
+    // One-to-One with User
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

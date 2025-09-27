@@ -1,5 +1,7 @@
 package com.skywalker.backend.model;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -23,6 +25,26 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Appointment Date is required")
+    @Future(message = "Appointment Date must be in the future")
+    private LocalDate appointmentDate;
+
+    @NotNull(message = "Appointment Time is required")
+    @Future(message = "Appointment Time must be in the future")
+    private LocalTime appointmentTime;
+
+    @Enumerated(EnumType.STRING)
+    private STATUS status = STATUS.SCHEDULED;
+
+    private String notes = "No notes";
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+
     // Many appointments -> One doctor
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
@@ -32,20 +54,5 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
-
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
-
-    @Enumerated(EnumType.STRING)
-    private STATUS status = STATUS.SCHEDULED;
-
-    private String notes; // optional for extra info
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
 
 }

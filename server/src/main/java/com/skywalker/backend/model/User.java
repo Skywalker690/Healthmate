@@ -37,16 +37,16 @@ public class User implements UserDetails {
     @NotBlank(message = "Email is required")
     private String email;
 
+    @JsonIgnore
     @NotBlank(message = "Password is required")
-    @JsonIgnore // to not expose passwords in API
     private String password;
 
-    @Column(nullable = true)
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private USER_ROLE role = USER_ROLE.ROLE_PATIENT; // default role is PATIENT
+    private USER_ROLE role = USER_ROLE.ROLE_PATIENT;
 
     @CreationTimestamp
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")

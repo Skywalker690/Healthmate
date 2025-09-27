@@ -21,14 +21,16 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // One-to-One with User
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
+    @Column(nullable = false)
     private String specialization;
-    private Integer experience; // in years
+
+    @Column(nullable = false)
+    private Integer experience;
+
+    @Column(nullable = false)
     private String availableHours; // e.g., "Mon-Fri 9AM-5PM"
+
+    @Column(unique = true, nullable = false)
     private String contactNumber;
 
     @CreationTimestamp
@@ -37,7 +39,13 @@ public class Doctor {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    // One-to-One with User
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     // One doctor -> Many appointments
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
+
 }
