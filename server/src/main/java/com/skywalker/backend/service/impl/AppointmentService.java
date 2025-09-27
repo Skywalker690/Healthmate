@@ -2,7 +2,7 @@ package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.model.Appointment;
 import com.skywalker.backend.repository.AppointmentRepository;
-import com.skywalker.backend.service.repo.AppointmentService;
+import com.skywalker.backend.service.repo.IAppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AppointmentServiceImpl implements AppointmentService {
+public class AppointmentService implements IAppointmentService {
 
     private final AppointmentRepository appointmentRepository;
 

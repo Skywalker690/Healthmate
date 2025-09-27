@@ -5,7 +5,7 @@ import com.skywalker.backend.dto.Response;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface AuthService {
+public interface IAuthService {
 
     String registerUser(Response dto);
 

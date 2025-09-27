@@ -2,7 +2,7 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.User;
-import com.skywalker.backend.service.repo.UserService;
+import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
     @GetMapping
     public List<User> getAllUsers() {
