@@ -16,7 +16,6 @@ public class Response {
     private String role;
     private String token;
 
-    private UserDTO user;
     private DoctorDTO doctor;
     private PatientDTO patient;
     private AppointmentDTO appointment;
@@ -24,4 +23,6 @@ public class Response {
     private List<DoctorDTO> doctorList;
     private List<PatientDTO> patientList;
     private List<AppointmentDTO> appointmentList;
+
+
 }
