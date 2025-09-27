@@ -3,19 +3,17 @@ package com.skywalker.backend.service.impl;
 import com.skywalker.backend.model.User;
 import com.skywalker.backend.repository.UserRepository;
 import com.skywalker.backend.service.repo.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public User createUser(User user) {
