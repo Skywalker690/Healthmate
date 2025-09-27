@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Doctor;
 import com.skywalker.backend.service.repo.DoctorService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class DoctorController {
 
     @GetMapping("/{id}")
     public Doctor getDoctorById(@PathVariable Long id) {
-        return doctorService.getDoctorById(id).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        return doctorService.getDoctorById(id).orElseThrow(() -> new OurException("Doctor not found"));
     }
 
     @GetMapping("/specialization/{spec}")

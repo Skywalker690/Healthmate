@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Patient;
 import com.skywalker.backend.service.repo.PatientService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,9 @@ public class PatientController {
 
     @GetMapping("/{id}")
     public Patient getPatientById(@PathVariable Long id) {
-        return patientService.getPatientById(id).orElseThrow(() -> new RuntimeException("Patient not found"));
+        return patientService.getPatientById(id).orElseThrow(
+                () -> new OurException("Patient not found")
+        );
     }
 
     @DeleteMapping("/{id}")

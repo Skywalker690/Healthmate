@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.repo.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userService.getUserById(id).orElseThrow(
+                () -> new OurException("User not found")
+        );
     }
 
     @DeleteMapping("/{id}")

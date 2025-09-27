@@ -44,7 +44,6 @@ public class Appointment {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
     // Many appointments -> One doctor
     @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
@@ -54,5 +53,4 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
-
 }

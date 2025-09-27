@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -41,9 +42,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @Column(unique = true, nullable = false)
-    private String phoneNumber;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private USER_ROLE role = USER_ROLE.ROLE_PATIENT;
@@ -59,7 +57,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(role+""));
     }
 
     @Override
