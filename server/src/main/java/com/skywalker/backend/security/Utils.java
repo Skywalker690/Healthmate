@@ -106,6 +106,11 @@ public class Utils {
         return dto;
     }
 
+
+    public static List<UserDTO> mapUserListToDTOList(List<User> users) {
+        return users.stream().map(Utils::mapUserToDTO).toList();
+    }
+
     // ------------------- APPOINTMENT CODE GENERATOR -------------------
 
     // Generate unique appointment code
@@ -113,4 +118,6 @@ public class Utils {
         String code = "APT-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
         return code.substring(0, Math.min(length + 4, code.length())); // +4 for "APT-"
     }
+
+
 }

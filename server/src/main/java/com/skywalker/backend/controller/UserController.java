@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.repo.IUserService;
@@ -16,15 +17,13 @@ public class UserController {
     private final IUserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public Response getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id).orElseThrow(
-                () -> new OurException("User not found")
-        );
+    public Response getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
