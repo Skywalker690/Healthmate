@@ -11,6 +11,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatientDTO {
 
+    private Long id;
     private GENDER gender;
     private String address;
     private LocalDate dateOfBirth;

@@ -1,6 +1,7 @@
 package com.skywalker.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skywalker.backend.domain.GENDER;
 import com.skywalker.backend.domain.USER_ROLE;
