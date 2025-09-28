@@ -55,32 +55,33 @@ public class UserService implements IUserService {
 
             // Create and save User first
             User user = new User();
+
             user.setName(request.getName());
             user.setEmail(request.getEmail());
+            user.setAddress(request.getAddress());
+            user.setPhoneNumber(request.getPhoneNumber());
             user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setDateOfBirth(LocalDate.parse(request.getDateOfBirth()));
+            user.setGender(request.getGender() != null
+                    ? GENDER.valueOf(request.getGender().toUpperCase())
+                    : GENDER.MALE);
+
             user.setRole(request.getRole() != null ? request.getRole() : USER_ROLE.ROLE_PATIENT);
 
-            User savedUser = userRepository.save(user); // Persist User first
+            User savedUser = userRepository.save(user); // User Persist first
 
             // Now handle Patient or Doctor
             if (savedUser.getRole() == USER_ROLE.ROLE_PATIENT) {
                 Patient patient = new Patient();
                 patient.setUser(savedUser);
-                patient.setAddress(request.getAddress() != null ? request.getAddress() : "Not Provided");
-                patient.setContactNumber(request.getContactNumber() != null ? request.getContactNumber() : "Not Provided");
-                patient.setGender(request.getGender() != null
-                        ? GENDER.valueOf(request.getGender().toUpperCase())
-                        : GENDER.OTHER);
-
-                if (request.getDateOfBirth() != null) {
-                    patient.setDateOfBirth(LocalDate.parse(request.getDateOfBirth()));
-                }
 
                 patientRepository.save(patient);
             }
             else if (savedUser.getRole() == USER_ROLE.ROLE_DOCTOR) {
                 Doctor doctor = new Doctor();
                 doctor.setUser(savedUser);
+                doctor.setExperience(request.getExperience());
+                doctor.setAvailableHours(request.getAvailableHours());
                 doctor.setSpecialization(request.getSpecialization() != null ? request.getSpecialization() : "General");
                 doctorRepository.save(doctor);
             }

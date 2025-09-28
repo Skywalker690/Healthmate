@@ -1,9 +1,6 @@
 package com.skywalker.backend.dto;
 
 import com.skywalker.backend.domain.STATUS;
-import com.skywalker.backend.model.Doctor;
-import com.skywalker.backend.model.Patient;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,6 +12,6 @@ public class AppointmentDTO {
     private STATUS status;
     private LocalDateTime appointmentDateTime;
 
-    private Doctor doctor;
-    private Patient patient;
+    private DoctorDTO doctor;
+    private PatientDTO patient;
 }

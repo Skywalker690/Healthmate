@@ -1,5 +1,6 @@
 package com.skywalker.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -7,11 +8,11 @@ import lombok.AllArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.List;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "doctors")
@@ -22,17 +23,15 @@ public class Doctor {
     private Long id;
 
     @Column(nullable = false)
-    private String specialization;
-
-    @Column(nullable = false)
     private Integer experience;
 
     @Column(nullable = false)
-    private String availableHours; // e.g., "Mon-Fri 9AM-5PM"
+    private String availableHours;
 
-    @Column(unique = true, nullable = false)
-    private String contactNumber;
+    @Column(nullable = false)
+    private String specialization;
 
+    //TimeStamps
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -40,12 +39,12 @@ public class Doctor {
     private LocalDateTime updatedAt;
 
     // One-to-One with User
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // One doctor -> Many appointments
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Appointment> appointments;
-
 }
