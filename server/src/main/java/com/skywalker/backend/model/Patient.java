@@ -31,9 +31,6 @@ public class Patient {
     @Enumerated(EnumType.STRING)
     private GENDER gender;
 
-    @Column(unique = true, nullable = false)
-    private String contactNumber;
-
     @Column(nullable = false)
     private String address;
 
@@ -42,6 +39,7 @@ public class Patient {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 
     // One patient -> Many appointments
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)

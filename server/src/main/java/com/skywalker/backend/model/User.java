@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
+    @Column(unique = true,nullable = false)
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private USER_ROLE role = USER_ROLE.ROLE_PATIENT;
@@ -55,6 +58,9 @@ public class User implements UserDetails {
     @UpdateTimestamp
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime updatedDate;
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

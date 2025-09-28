@@ -30,14 +30,12 @@ public class Doctor {
     @Column(nullable = false)
     private String availableHours; // e.g., "Mon-Fri 9AM-5PM"
 
-    @Column(unique = true, nullable = false)
-    private String contactNumber;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 
     // One-to-One with User
     @OneToOne

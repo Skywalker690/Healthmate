@@ -16,7 +16,6 @@ public class PatientDTO {
 
     private STATUS gender;
     private String address;
-    private String contactNumber;
     private LocalDate dateOfBirth;
 
     private User user;
