@@ -77,6 +77,8 @@ public class UserService implements IUserService {
             else if (savedUser.getRole() == USER_ROLE.ROLE_DOCTOR) {
                 Doctor doctor = new Doctor();
                 doctor.setUser(savedUser);
+                doctor.setExperience(request.getExperience());
+                doctor.setAvailableHours(request.getAvailableHours());
                 doctor.setSpecialization(request.getSpecialization() != null ? request.getSpecialization() : "General");
                 doctorRepository.save(doctor);
             }

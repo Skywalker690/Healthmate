@@ -11,6 +11,7 @@ public class UserDTO {
     private String email;
     private String password;
     private String phoneNumber;
-    private USER_ROLE role;
-    private GENDER gender;
+
+    private USER_ROLE role = USER_ROLE.ROLE_PATIENT;
+    private GENDER gender = GENDER.MALE;
 }
