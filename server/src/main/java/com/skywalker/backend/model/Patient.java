@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,12 +22,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private LocalDate dateOfBirth;
-
-    @Column(nullable = false)
-    private String address;
-
+    //TimeStamps
     @CreationTimestamp
     private LocalDateTime createdAt;
 

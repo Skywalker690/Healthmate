@@ -23,14 +23,15 @@ public class Doctor {
     private Long id;
 
     @Column(nullable = false)
-    private String specialization;
-
-    @Column(nullable = false)
     private Integer experience;
 
     @Column(nullable = false)
     private String availableHours;
 
+    @Column(nullable = false)
+    private String specialization;
+
+    //TimeStamps
     @CreationTimestamp
     private LocalDateTime createdAt;
 

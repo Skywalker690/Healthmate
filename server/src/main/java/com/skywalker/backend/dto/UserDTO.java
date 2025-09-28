@@ -9,7 +9,6 @@ public class UserDTO {
 
     private String name;
     private String email;
-    private String password;
     private String phoneNumber;
 
     private USER_ROLE role = USER_ROLE.ROLE_PATIENT;

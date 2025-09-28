@@ -26,13 +26,14 @@ public class Appointment {
 
     @NotNull(message = "Appointment DateTime is required")
     @Future(message = "Appointment must be in the future")
-    private LocalDateTime appointmentDateTime; // Combined date + time for @Future
+    private LocalDateTime appointmentDateTime;
 
     @Enumerated(EnumType.STRING)
     private STATUS status = STATUS.SCHEDULED;
 
     private String notes = "No notes";
 
+    //TimeStamps
     @CreationTimestamp
     private LocalDateTime createdAt;
 
