@@ -67,10 +67,6 @@ public class UserService implements IUserService {
                 Patient patient = new Patient();
                 patient.setUser(savedUser);
                 patient.setAddress(request.getAddress() != null ? request.getAddress() : "Not Provided");
-                patient.setContactNumber(request.getContactNumber() != null ? request.getContactNumber() : "Not Provided");
-                patient.setGender(request.getGender() != null
-                        ? GENDER.valueOf(request.getGender().toUpperCase())
-                        : GENDER.OTHER);
 
                 if (request.getDateOfBirth() != null) {
                     patient.setDateOfBirth(LocalDate.parse(request.getDateOfBirth()));

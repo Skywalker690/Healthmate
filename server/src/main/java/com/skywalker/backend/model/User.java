@@ -1,6 +1,7 @@
 package com.skywalker.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.skywalker.backend.domain.GENDER;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private USER_ROLE role = USER_ROLE.ROLE_PATIENT;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GENDER gender;
 
     @CreationTimestamp
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")

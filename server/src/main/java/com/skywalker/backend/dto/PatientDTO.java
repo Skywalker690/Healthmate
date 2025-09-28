@@ -2,9 +2,6 @@ package com.skywalker.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.skywalker.backend.domain.STATUS;
-import com.skywalker.backend.model.Appointment;
-import com.skywalker.backend.model.User;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -18,6 +15,6 @@ public class PatientDTO {
     private String address;
     private LocalDate dateOfBirth;
 
-    private User user;
-    private List<Appointment> appointments;
+    private UserDTO user;
+    private List<AppointmentDTO> appointments;
 }

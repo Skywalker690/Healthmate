@@ -1,5 +1,6 @@
 package com.skywalker.backend.dto;
 
+import com.skywalker.backend.domain.GENDER;
 import com.skywalker.backend.domain.USER_ROLE;
 import lombok.Data;
 
@@ -11,4 +12,5 @@ public class UserDTO {
     private String password;
     private String phoneNumber;
     private USER_ROLE role;
+    private GENDER gender;
 }

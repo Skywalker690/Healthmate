@@ -28,10 +28,6 @@ public class Patient {
     private LocalDate dateOfBirth;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private GENDER gender;
-
-    @Column(nullable = false)
     private String address;
 
     @CreationTimestamp
