@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,32 +19,40 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtUtils;
     private final CustomUserDetailsService customUserDetailsService;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        String header = request.getHeader("Authorization");
-        String token = null;
-        String email = null;
+        final String authHeader = request.getHeader("Authorization");
+        final String jwtToken;
+        final String userEmail;
 
-        if (header != null && header.startsWith("Bearer ")) {
-            token = header.substring(7);
-            if (jwtTokenProvider.validateToken(token)) {
-                Long userId = jwtTokenProvider.getUserIdFromJWT(token);
-                UserDetails userDetails = customUserDetailsService.loadUserByUsername(
-                        customUserDetailsService.userRepository.findById(userId)
-                                .orElseThrow(() -> new RuntimeException("User not found")).getEmail()
-                );
+        if (authHeader == null || authHeader.isBlank()) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-                UsernamePasswordAuthenticationToken authentication =
+        jwtToken = authHeader.substring(7);
+
+        userEmail = jwtUtils.extractUserName(jwtToken);
+
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
+            if (jwtUtils.isValidToken(jwtToken, userDetails)) {
+                SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                UsernamePasswordAuthenticationToken token =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                securityContext.setAuthentication(token);
+                SecurityContextHolder.setContext(securityContext);
             }
         }
         filterChain.doFilter(request, response);

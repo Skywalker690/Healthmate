@@ -13,6 +13,7 @@ import com.skywalker.backend.model.User;
 import com.skywalker.backend.repository.DoctorRepository;
 import com.skywalker.backend.repository.PatientRepository;
 import com.skywalker.backend.repository.UserRepository;
+import com.skywalker.backend.security.CustomUserDetails;
 import com.skywalker.backend.security.JwtTokenProvider;
 import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -107,28 +108,29 @@ public class UserService implements IUserService {
     public Response login(LoginRequest loginRequest) {
 
         Response response = new Response();
+
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            var user = userRepository.findByEmail(loginRequest.getEmail()).
-                    orElseThrow(
-                            () -> new OurException("User Not Registered")
-                    );
-            var token = jwtTokenProvider.generateToken((Authentication) user);
+            var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new OurException("user Not found"));
 
-            response.setMessage("Login Successful");
+            var token = jwtTokenProvider.generateToken(user);
             response.setStatusCode(200);
             response.setToken(token);
             response.setRole(String.valueOf(user.getRole()));
+            response.setMessage("successful");
 
         } catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
+
         } catch (Exception e) {
+
             response.setStatusCode(500);
             response.setMessage("Error Occurred During USer Login " + e.getMessage());
         }
         return response;
     }
+
 
 
 
