@@ -2,65 +2,62 @@ package com.skywalker.backend.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
+import java.util.function.Function;
 
-@Component
-public class JwtTokenProvider {
+@Service
+public class JwtTokenProvider{
 
-    @Value("${app.jwt-secret}")
-    private String jwtSecret;
+    private static final long EXPIRATION_TIME = 1000 * 60 * 24 * 7; // 7 days
+    private SecretKey Key;
 
-    @Value("${app.jwt-expiration-ms}")
-    private long jwtExpirationMs;
+    //Injecting from an env file
+    @Value("${jwt.secret}")
+    private String secretString;
 
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    @PostConstruct
+    public void init() {
+
+        byte[] keyBytes = Decoders.BASE64.decode(secretString);
+        this.Key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Generate token
-    public String generateToken(Authentication authentication) {
-        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
-
+    public String generateToken(UserDetails userDetails){
         return Jwts.builder()
-                .subject(Long.toString(userPrincipal.getId()))
-                .claim("role", userPrincipal.getRole().name())
-                .claim("email", userPrincipal.getEmail())
-                .issuedAt(now)
-                .expiration(expiryDate)
-                .signWith(getSigningKey())
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(Key)
                 .compact();
     }
 
-    // Get userId from token
-    public Long getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey())
+    public String extractUserName(String token){
+        return extractClaims(token, Claims::getSubject);
+    }
+
+    private <T> T extractClaims(String token, Function<Claims,T> claimsTFunction){
+        return claimsTFunction.apply(Jwts.parser()
+                .verifyWith(Key)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload();
-
-        return Long.parseLong(claims.getSubject());
+                .getPayload());
     }
 
-    // Validate token
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser()
-                    .verifyWith((SecretKey) getSigningKey())
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+    public boolean isValidToken(String token,UserDetails userDetails){
+        final String username =extractUserName(token);
+        return (username.equals(userDetails.getUsername()) && !isValidExpired(token));
+    }
+
+    private boolean isValidExpired(String token) {
+        return extractClaims(token,Claims::getExpiration).before(new Date());
     }
 }
+

@@ -1,7 +1,6 @@
 package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.domain.GENDER;
-import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.domain.USER_ROLE;
 import com.skywalker.backend.dto.LoginRequest;
 import com.skywalker.backend.dto.RegisterRequest;
@@ -18,7 +17,6 @@ import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +37,7 @@ public class UserService implements IUserService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
 
-    //@Transactional
+    @Transactional
     public Response register(RegisterRequest request) {
         Response response = new Response();
         try {
@@ -109,26 +107,27 @@ public class UserService implements IUserService {
         Response response = new Response();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            var user = userRepository.findByEmail(loginRequest.getEmail()).
-                    orElseThrow(
-                            () -> new OurException("User Not Registered")
+            var user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new OurException("User Not found")
                     );
-            var token = jwtTokenProvider.generateToken((Authentication) user);
 
-            response.setMessage("Login Successful");
+            var token = jwtTokenProvider.generateToken(user);
             response.setStatusCode(200);
             response.setToken(token);
             response.setRole(String.valueOf(user.getRole()));
-
+            response.setMessage("Login Successful");
         } catch (OurException e) {
+
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
+
             response.setStatusCode(500);
-            response.setMessage("Error Occurred During USer Login " + e.getMessage());
+            response.setMessage("Error Occurred During User Login " + e.getMessage());
         }
         return response;
     }
+
 
 
 

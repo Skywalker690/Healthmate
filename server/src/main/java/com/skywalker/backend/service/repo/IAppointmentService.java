@@ -1,15 +1,21 @@
 package com.skywalker.backend.service.repo;
 
+import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.Appointment;
-import java.util.List;
-import java.util.Optional;
 
 public interface IAppointmentService {
-    Appointment createAppointment(Appointment appointment);
-    Optional<Appointment> getAppointmentById(Long id);
-    List<Appointment> getAppointmentsByDoctor(Long doctorId);
-    List<Appointment> getAppointmentsByPatient(Long patientId);
-    List<Appointment> getAllAppointments();
-    Appointment updateAppointmentStatus(Long id, String status);
-    void deleteAppointment(Long id);
+
+    Response createAppointment(Appointment appointmentRequest);
+
+    Response getAppointmentById(Long id);
+
+    Response getAppointmentsByDoctor(Long doctorId);
+
+    Response getAppointmentsByPatient(Long patientId);
+
+    Response getAllAppointments();
+
+    Response updateAppointmentStatus(Long id, String status);
+
+    Response deleteAppointment(Long id);
 }

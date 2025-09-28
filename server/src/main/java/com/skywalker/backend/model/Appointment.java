@@ -33,6 +33,9 @@ public class Appointment {
 
     private String notes = "No notes";
 
+    @Column(nullable = false,unique = true)
+    private String appointmentCode;
+
     //TimeStamps
     @CreationTimestamp
     private LocalDateTime createdAt;
