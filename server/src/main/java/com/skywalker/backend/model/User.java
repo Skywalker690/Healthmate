@@ -1,5 +1,6 @@
 package com.skywalker.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skywalker.backend.domain.GENDER;
 import com.skywalker.backend.domain.USER_ROLE;
@@ -54,7 +55,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private GENDER gender = GENDER.MALE;
 
+
     @Column(nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy") // e.g., 01-01-1999
     private LocalDate dateOfBirth;
 
     @Column(nullable = false)

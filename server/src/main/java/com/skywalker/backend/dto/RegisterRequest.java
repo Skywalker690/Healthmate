@@ -7,22 +7,17 @@ import lombok.Data;
 public class RegisterRequest {
 
     private String name;
-
     private String email;
-
     private String password;
-
     private USER_ROLE role;
 
-    // Fields for Patient
     private String gender;
     private String address;
     private String dateOfBirth;
-    private String contactNumber;
+    private String phoneNumber;
 
     // Fields for Doctor
-    private String specialization;
     private Integer experience;
-    private String docNumber;
+    private String specialization;
     private String availableHours;
 }
