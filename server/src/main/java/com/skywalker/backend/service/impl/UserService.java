@@ -34,11 +34,13 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+
     private final UserRepository userRepository;
-    private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
 
     @Transactional
+    @Override
     public Response register(RegisterRequest request) {
         Response response = new Response();
         try {
@@ -177,17 +179,17 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public Response deleteUser(Long userId) {
+    public Response deleteUser(Long id) {
         Response response = new Response();
         try {
-            User user = userRepository.findById(userId)
+            User user = userRepository.findById(id)
                     .orElseThrow(() -> new OurException("User not found, deletion failed"));
 
             if (user.getRole() == USER_ROLE.ROLE_DOCTOR) {
-                doctorRepository.deleteByUserId(userId);
+                doctorRepository.deleteByUserId(id);
                 response.setMessage("Doctor record deleted");
             } else if (user.getRole() == USER_ROLE.ROLE_PATIENT) {
-                patientRepository.deleteByUserId(userId);
+                patientRepository.deleteByUserId(id);
                 response.setMessage("Patient record deleted");
             }
 
