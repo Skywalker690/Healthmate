@@ -2,13 +2,20 @@ package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.dto.AppointmentDTO;
 import com.skywalker.backend.dto.Response;
+import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Appointment;
+import com.skywalker.backend.model.Doctor;
+import com.skywalker.backend.model.Patient;
 import com.skywalker.backend.repository.AppointmentRepository;
+import com.skywalker.backend.repository.DoctorRepository;
+import com.skywalker.backend.repository.PatientRepository;
 import com.skywalker.backend.security.Utils;
 import com.skywalker.backend.service.repo.IAppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,16 +23,42 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AppointmentService implements IAppointmentService {
 
+    private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
     private final AppointmentRepository appointmentRepository;
 
 
     @Override
-    public Response createAppointment(Appointment appointmentRequest) {
+    public Response createAppointment(Long patientId,
+                                      Long doctorId,
+                                      Appointment appointmentRequest) {
         Response response = new Response();
         try {
-            Appointment savedAppointment = appointmentRepository.save(appointmentRequest);
+            // Fetch Doctor and Patient first
+            Doctor doctor = doctorRepository.findById(doctorId)
+                    .orElseThrow(() -> new OurException("Doctor not found"));
+            Patient patient = patientRepository.findById(patientId)
+                    .orElseThrow(() -> new OurException("Patient not found"));
 
+            // Check if doctor is available at a given dateTime
+            if (!isDoctorAvailable(doctorId, appointmentRequest.getAppointmentDateTime())) {
+                response.setStatusCode(400);
+                response.setMessage("Doctor is not available at the selected time");
+                return response;
+            }
+
+            // Set doctor and patient in Appointment entity
+            appointmentRequest.setDoctor(doctor);
+            appointmentRequest.setPatient(patient);
+
+            // Generate Appointment Code if null
+            if (appointmentRequest.getAppointmentCode() == null || appointmentRequest.getAppointmentCode().isEmpty()) {
+                appointmentRequest.setAppointmentCode(Utils.generateAppointmentCode(10));
+            }
+
+            Appointment savedAppointment = appointmentRepository.save(appointmentRequest);
             AppointmentDTO appointmentDTO = Utils.mapAppointmentToDTO(savedAppointment);
+
             response.setStatusCode(200);
             response.setMessage("Appointment created successfully");
             response.setAppointment(appointmentDTO);
@@ -36,6 +69,7 @@ public class AppointmentService implements IAppointmentService {
         }
         return response;
     }
+
 
     @Override
     public Response getAppointmentById(Long id) {
@@ -154,5 +188,9 @@ public class AppointmentService implements IAppointmentService {
             response.setMessage("Error deleting appointment: " + e.getMessage());
         }
         return response;
+    }
+    private boolean isDoctorAvailable(Long doctorId, LocalDateTime appointmentDateTime) {
+        List<Appointment> existingAppointments = appointmentRepository.findByDoctorIdAndAppointmentDateTime(doctorId, appointmentDateTime);
+        return existingAppointments.isEmpty();
     }
 }

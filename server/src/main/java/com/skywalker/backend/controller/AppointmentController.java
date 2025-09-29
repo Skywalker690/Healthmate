@@ -2,7 +2,7 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.Appointment;
-import com.skywalker.backend.service.repo.IAppointmentService;
+import com.skywalker.backend.service.impl.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,41 +12,43 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/appointments")
 public class AppointmentController {
 
-    private final IAppointmentService IAppointmentService;
-
-    @PostMapping
-    public Response createAppointment(@RequestBody Appointment appointment) {
-        return IAppointmentService.createAppointment(appointment);
-    }
+    private final AppointmentService appointmentService;
 
     @GetMapping
     public Response getAllAppointments() {
-        return IAppointmentService.getAllAppointments();
+        return appointmentService.getAllAppointments();
+    }
+
+    @PostMapping("/{patientId}/{doctorId}")
+    public Response createAppointment(@PathVariable Long patientId,
+                                      @PathVariable Long doctorId,
+                                      @RequestBody Appointment appointment) {
+        return appointmentService.createAppointment(patientId,doctorId,appointment);
     }
 
     @GetMapping("/{id}")
     public Response getAppointmentById(@PathVariable Long id) {
-        return IAppointmentService.getAppointmentById(id);
+        return appointmentService.getAppointmentById(id);
     }
 
     @GetMapping("/doctor/{doctorId}")
     public Response getAppointmentsByDoctor(@PathVariable Long doctorId) {
-        return IAppointmentService.getAppointmentsByDoctor(doctorId);
+        return appointmentService.getAppointmentsByDoctor(doctorId);
     }
 
     @GetMapping("/patient/{patientId}")
     public Response getAppointmentsByPatient(@PathVariable Long patientId) {
-        return IAppointmentService.getAppointmentsByPatient(patientId);
+        return appointmentService.getAppointmentsByPatient(patientId);
     }
 
     @PutMapping("/{id}/status/{status}")
     public Response updateAppointmentStatus(@PathVariable Long id, @PathVariable String status) {
-        return IAppointmentService.updateAppointmentStatus(id, status);
+        return appointmentService.updateAppointmentStatus(id, status);
     }
 
     @DeleteMapping("/{id}")
     public Response deleteAppointment(@PathVariable Long id) {
-        return IAppointmentService.deleteAppointment(id);
+        return appointmentService.deleteAppointment(id);
     }
 }
 
