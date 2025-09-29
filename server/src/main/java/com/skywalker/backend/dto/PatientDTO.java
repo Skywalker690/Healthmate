@@ -15,7 +15,7 @@ public class PatientDTO {
     private String gender;
     private String address;
     private String dateOfBirth;
-    private String role;
+
     private List<AppointmentDTO> appointments;
 }
 

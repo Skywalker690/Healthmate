@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Doctor;
 import com.skywalker.backend.service.impl.DoctorService;
@@ -18,24 +19,22 @@ public class DoctorController {
 
 
     @GetMapping
-    public List<Doctor> getAllDoctors() {
+    public Response getAllDoctors() {
         return doctorService.getAllDoctors();
     }
 
     @GetMapping("/{id}")
-    public Doctor getDoctorById(@PathVariable Long id) {
-        return doctorService.getDoctorById(id).orElseThrow(
-                () -> new OurException("Doctor not found")
-        );
+    public Response getDoctorById(@PathVariable Long id) {
+        return doctorService.getDoctorById(id);
     }
 
     @GetMapping("/specialization/{spec}")
-    public List<Doctor> getDoctorsBySpecialization(@PathVariable String spec) {
+    public Response getDoctorsBySpecialization(@PathVariable String spec) {
         return doctorService.getDoctorsBySpecialization(spec);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDoctor(@PathVariable Long id) {
-        doctorService.deleteDoctor(id);
+    public Response deleteDoctor(@PathVariable Long id) {
+        return doctorService.deleteDoctor(id);
     }
 }

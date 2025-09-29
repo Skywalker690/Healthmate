@@ -1,12 +1,17 @@
 package com.skywalker.backend.service.repo;
 
+import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.Doctor;
 import java.util.List;
-import java.util.Optional;
 
 public interface IDoctorService {
-    Optional<Doctor> getDoctorById(Long id);
-    List<Doctor> getAllDoctors();
-    List<Doctor> getDoctorsBySpecialization(String specialization);
-    void deleteDoctor(Long id);
+
+    Response getAllDoctors();
+
+    Response getDoctorById(Long id);
+
+    Response deleteDoctor(Long id);
+
+    Response getDoctorsBySpecialization(String specialization);
+
 }
