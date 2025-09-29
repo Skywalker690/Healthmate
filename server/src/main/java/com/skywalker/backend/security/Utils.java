@@ -33,12 +33,6 @@ public class Utils {
         return dto;
     }
 
-    // Map list of Appointments to a DTO list
-    public static List<AppointmentDTO> mapAppointmentListToDTOList(List<Appointment> appointments) {
-        return appointments.stream()
-                .map(Utils::mapAppointmentToDTO)
-                .collect(Collectors.toList());
-    }
 
     // ------------------- DOCTOR -------------------
 
@@ -70,13 +64,20 @@ public class Utils {
 
     // Map Patient to DTO (without appointments)
     public static PatientDTO mapPatientToDTO(Patient patient) {
+        User user = patient.getUser();
         PatientDTO dto = new PatientDTO();
+
         dto.setId(patient.getId());
-        dto.setGender(patient.getUser().getGender());
-        dto.setAddress(patient.getUser().getAddress());
-        dto.setDateOfBirth(patient.getUser().getDateOfBirth());
-        dto.setUser(mapUserToDTO(patient.getUser()));
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setRole(user.getGender().name());
+        dto.setAddress(user.getAddress());
+        dto.setDateOfBirth(String.valueOf(user.getDateOfBirth()));
+        dto.setRole(user.getRole().name());
+
         return dto;
+
     }
 
     // Map Patient to DTO with Appointments (used only when required)
@@ -109,6 +110,20 @@ public class Utils {
 
     public static List<UserDTO> mapUserListToDTOList(List<User> users) {
         return users.stream().map(Utils::mapUserToDTO).toList();
+    }
+
+    public static List<PatientDTO> mapPatientListToDTOList(List<Patient> patients) {
+        return patients.stream().map(Utils::mapPatientToDTO).toList();
+    }
+
+    public static List<DoctorDTO> mapDoctorListToDTOList(List<Doctor> doctors) {
+        return doctors.stream().map(Utils::mapDoctorToDTO).toList();
+    }
+
+    public static List<AppointmentDTO> mapAppointmentListToDTOList(List<Appointment> appointments) {
+        return appointments.stream()
+                .map(Utils::mapAppointmentToDTO)
+                .collect(Collectors.toList());
     }
 
     // ------------------- APPOINTMENT CODE GENERATOR -------------------

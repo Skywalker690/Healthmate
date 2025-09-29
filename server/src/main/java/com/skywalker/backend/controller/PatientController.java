@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Patient;
 import com.skywalker.backend.service.impl.PatientService;
@@ -22,7 +23,7 @@ public class PatientController {
     }
 
     @GetMapping
-    public List<Patient> getAllPatients() {
+    public Response getAllPatients() {
         return patientService.getAllPatients();
     }
 
