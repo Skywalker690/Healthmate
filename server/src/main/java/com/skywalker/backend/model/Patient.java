@@ -35,6 +35,7 @@ public class Patient {
     private List<Appointment> appointments;
 
     // One-to-One with User
+    @MapsId
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

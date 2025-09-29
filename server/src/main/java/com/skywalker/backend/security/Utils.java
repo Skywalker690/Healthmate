@@ -38,12 +38,21 @@ public class Utils {
 
     // Map Doctor to DTO (without appointments)
     public static DoctorDTO mapDoctorToDTO(Doctor doctor) {
+
+        User user = doctor.getUser();
         DoctorDTO dto = new DoctorDTO();
+
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setGender(user.getGender().name());
+        dto.setAddress(user.getAddress());
+        dto.setDateOfBirth(String.valueOf(user.getDateOfBirth()));
+
         dto.setId(doctor.getId());
         dto.setExperience(doctor.getExperience());
         dto.setSpecialization(doctor.getSpecialization());
         dto.setAvailableHours(doctor.getAvailableHours());
-        dto.setUser(mapUserToDTO(doctor.getUser())); // basic user details only
         return dto;
     }
 
@@ -64,6 +73,7 @@ public class Utils {
 
     // Map Patient to DTO (without appointments)
     public static PatientDTO mapPatientToDTO(Patient patient) {
+
         User user = patient.getUser();
         PatientDTO dto = new PatientDTO();
 
@@ -74,7 +84,6 @@ public class Utils {
         dto.setGender(user.getGender().name());
         dto.setAddress(user.getAddress());
         dto.setDateOfBirth(String.valueOf(user.getDateOfBirth()));
-        dto.setRole(user.getRole().name());
 
         return dto;
 

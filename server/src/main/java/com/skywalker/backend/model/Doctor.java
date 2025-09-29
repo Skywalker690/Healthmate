@@ -39,6 +39,7 @@ public class Doctor {
     private LocalDateTime updatedAt;
 
     // One-to-One with User
+    @MapsId
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
