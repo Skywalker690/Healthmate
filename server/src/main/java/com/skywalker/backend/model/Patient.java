@@ -30,12 +30,12 @@ public class Patient {
     private LocalDateTime updatedAt;
 
     // One patient -> Many appointments
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<Appointment> appointments;
 
     // One-to-One with User
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

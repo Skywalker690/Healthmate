@@ -1,10 +1,7 @@
 package com.skywalker.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.skywalker.backend.domain.GENDER;
 import lombok.Data;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -12,10 +9,13 @@ import java.util.List;
 public class PatientDTO {
 
     private Long id;
-    private GENDER gender;
+    private String name;
+    private String email;
+    private String phoneNumber;
+    private String gender;
     private String address;
-    private LocalDate dateOfBirth;
-
-    private UserDTO user;
+    private String dateOfBirth;
+    private String role;
     private List<AppointmentDTO> appointments;
 }
+

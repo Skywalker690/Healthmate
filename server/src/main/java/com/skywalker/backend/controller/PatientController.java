@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Patient;
 import com.skywalker.backend.service.impl.PatientService;
@@ -22,15 +23,13 @@ public class PatientController {
     }
 
     @GetMapping
-    public List<Patient> getAllPatients() {
+    public Response getAllPatients() {
         return patientService.getAllPatients();
     }
 
     @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable Long id) {
-        return patientService.getPatientById(id).orElseThrow(
-                () -> new OurException("Patient not found")
-        );
+    public Response getPatientById(@PathVariable Long id) {
+        return patientService.getPatientById(id);
     }
 
     @DeleteMapping("/{id}")

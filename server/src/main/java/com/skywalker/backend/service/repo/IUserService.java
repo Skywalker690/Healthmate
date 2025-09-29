@@ -9,10 +9,9 @@ import java.util.Optional;
 
 public interface IUserService {
 
-    Optional<User> getUserById(Long id);
-    Optional<User> getUserByEmail(String email);
-    List<User> getAllUsers();
-    void deleteUser(Long id);
+    Response getUserById(Long id);
+    Response getAllUsers();
+    Response deleteUser(Long id);
 
     Response register(RegisterRequest request);
     Response login(LoginRequest loginRequest);

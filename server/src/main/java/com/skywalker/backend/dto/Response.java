@@ -1,7 +1,6 @@
 package com.skywalker.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -16,10 +15,12 @@ public class Response {
     private String role;
     private String token;
 
+    private UserDTO user;
     private DoctorDTO doctor;
     private PatientDTO patient;
     private AppointmentDTO appointment;
 
+    private List<UserDTO> userList;
     private List<DoctorDTO> doctorList;
     private List<PatientDTO> patientList;
     private List<AppointmentDTO> appointmentList;
