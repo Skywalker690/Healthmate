@@ -1,6 +1,7 @@
 package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.dto.Response;
+import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Patient;
 import com.skywalker.backend.repository.PatientRepository;
 import com.skywalker.backend.security.Utils;
@@ -38,8 +39,21 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public Optional<Patient> getPatientById(Long id) {
-        return patientRepository.findById(id);
+    public Response getPatientById(Long id) {
+        Response response = new Response();
+        try {
+            Patient patient =patientRepository.findById(id).orElseThrow(
+                    () -> new OurException("Patient not found with this ID")
+            );
+            response.setPatient(Utils.mapPatientToDTO(patient));
+            response.setStatusCode(200);
+            response.setMessage("Patient fetched successfully");
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while fetching patients: " + e.getMessage());
+        }
+        return response;
+
     }
 
     @Override

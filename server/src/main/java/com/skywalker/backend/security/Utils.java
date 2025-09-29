@@ -71,7 +71,7 @@ public class Utils {
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
         dto.setPhoneNumber(user.getPhoneNumber());
-        dto.setRole(user.getGender().name());
+        dto.setGender(user.getGender().name());
         dto.setAddress(user.getAddress());
         dto.setDateOfBirth(String.valueOf(user.getDateOfBirth()));
         dto.setRole(user.getRole().name());

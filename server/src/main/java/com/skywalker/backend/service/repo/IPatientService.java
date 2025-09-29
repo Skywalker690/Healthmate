@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface IPatientService {
     Patient createPatient(Patient patient);
-    Optional<Patient> getPatientById(Long id);
+    Response getPatientById(Long id);
     Response getAllPatients();
     void deletePatient(Long id);
 }

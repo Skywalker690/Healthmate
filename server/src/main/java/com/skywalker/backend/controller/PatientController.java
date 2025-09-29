@@ -28,10 +28,8 @@ public class PatientController {
     }
 
     @GetMapping("/{id}")
-    public Patient getPatientById(@PathVariable Long id) {
-        return patientService.getPatientById(id).orElseThrow(
-                () -> new OurException("Patient not found")
-        );
+    public Response getPatientById(@PathVariable Long id) {
+        return patientService.getPatientById(id);
     }
 
     @DeleteMapping("/{id}")
