@@ -17,10 +17,6 @@ public class PatientController {
 
     private final PatientService patientService;
 
-    @PostMapping
-    public Patient createPatient(@RequestBody Patient patient) {
-        return patientService.createPatient(patient);
-    }
 
     @GetMapping
     public Response getAllPatients() {

@@ -33,10 +33,6 @@ public class PatientService implements IPatientService {
         return response;
     }
 
-    @Override
-    public Patient createPatient(Patient patient) {
-        return patientRepository.save(patient);
-    }
 
     @Override
     public Response getPatientById(Long id) {

@@ -15,10 +15,6 @@ public class DoctorService implements IDoctorService {
 
     private final DoctorRepository doctorRepository;
 
-    @Override
-    public Doctor createDoctor(Doctor doctor) {
-        return doctorRepository.save(doctor);
-    }
 
     @Override
     public Optional<Doctor> getDoctorById(Long id) {

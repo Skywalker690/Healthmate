@@ -16,10 +16,6 @@ public class DoctorController {
 
     private final DoctorService doctorService;
 
-    @PostMapping
-    public Doctor createDoctor(@RequestBody Doctor doctor) {
-        return doctorService.createDoctor(doctor);
-    }
 
     @GetMapping
     public List<Doctor> getAllDoctors() {
