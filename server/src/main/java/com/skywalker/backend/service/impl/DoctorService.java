@@ -4,6 +4,7 @@ import com.skywalker.backend.dto.DoctorDTO;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Doctor;
+import com.skywalker.backend.model.User;
 import com.skywalker.backend.repository.DoctorRepository;
 import com.skywalker.backend.repository.UserRepository;
 import com.skywalker.backend.security.Utils;
@@ -11,6 +12,7 @@ import com.skywalker.backend.service.repo.IDoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -78,6 +80,37 @@ public class DoctorService implements IDoctorService {
         }
         return response;
     }
+
+    @Override
+    public Response updateDoctor(Long doctorId, Doctor request) {
+        Response response = new Response();
+        try {
+            // Fetch doctor and associated user
+            Doctor doctor = doctorRepository.findById(doctorId)
+                    .orElseThrow(() -> new OurException("Doctor not found"));
+            User user = doctor.getUser();
+
+            // Update Doctor-specific fields
+            if (request.getSpecialization() != null) doctor.setSpecialization(request.getSpecialization());
+            if (request.getExperience() != null) doctor.setExperience(request.getExperience());
+            if (request.getAvailableHours() != null) doctor.setAvailableHours(request.getAvailableHours());
+
+            doctorRepository.save(doctor);
+
+            response.setStatusCode(200);
+            response.setMessage("Doctor updated successfully");
+            response.setDoctor(Utils.mapDoctorToDTO(doctor));
+
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while updating doctor: " + e.getMessage());
+        }
+        return response;
+    }
+
 
 
     @Override

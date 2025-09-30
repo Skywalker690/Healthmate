@@ -29,9 +29,7 @@ public class AppointmentService implements IAppointmentService {
 
 
     @Override
-    public Response createAppointment(Long patientId,
-                                      Long doctorId,
-                                      Appointment appointmentRequest) {
+    public Response createAppointment(Long patientId, Long doctorId, Appointment appointmentRequest) {
         Response response = new Response();
         try {
             // Fetch Doctor and Patient first
@@ -69,7 +67,6 @@ public class AppointmentService implements IAppointmentService {
         }
         return response;
     }
-
 
     @Override
     public Response getAppointmentById(Long id) {
@@ -208,7 +205,6 @@ public class AppointmentService implements IAppointmentService {
         }
         return response;
     }
-
 
 
 

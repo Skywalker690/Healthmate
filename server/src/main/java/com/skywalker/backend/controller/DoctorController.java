@@ -3,6 +3,7 @@ package com.skywalker.backend.controller;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Doctor;
+import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.impl.DoctorService;
 import com.skywalker.backend.service.repo.IDoctorService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,11 @@ public class DoctorController {
     @GetMapping("/specialization/{spec}")
     public Response getDoctorsBySpecialization(@PathVariable String spec) {
         return doctorService.getDoctorsBySpecialization(spec);
+    }
+
+    @PutMapping("/doctors/{id}")
+    public Response updateDoctor(@PathVariable Long id, @RequestBody Doctor request) {
+        return doctorService.updateDoctor(id, request);
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.skywalker.backend.controller;
 
 import com.skywalker.backend.dto.Response;
+import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.impl.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,12 @@ public class PatientController {
     @GetMapping("/{id}")
     public Response getPatientById(@PathVariable Long id) {
         return patientService.getPatientById(id);
+    }
+
+    @PutMapping("/patients/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public Response updatePatient(@PathVariable Long id, @RequestBody User request) {
+        return patientService.updatePatient(id, request);
     }
 
     @DeleteMapping("/{id}")
