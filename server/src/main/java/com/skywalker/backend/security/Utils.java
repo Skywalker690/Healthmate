@@ -11,7 +11,6 @@ public class Utils {
 
     // ------------------- APPOINTMENT -------------------
 
-    // Map single Appointment to DTO
     public static AppointmentDTO mapAppointmentToDTO(Appointment appointment) {
         AppointmentDTO dto = new AppointmentDTO();
         dto.setId(appointment.getId());
@@ -20,12 +19,10 @@ public class Utils {
         dto.setAppointmentDateTime(appointment.getAppointmentDateTime());
         dto.setAppointmentCode(appointment.getAppointmentCode());
 
-        // Add Doctor if present
         if (appointment.getDoctor() != null) {
             dto.setDoctor(mapDoctorToDTO(appointment.getDoctor()));
         }
 
-        // Add Patient if present
         if (appointment.getPatient() != null) {
             dto.setPatient(mapPatientToDTO(appointment.getPatient()));
         }
@@ -33,15 +30,19 @@ public class Utils {
         return dto;
     }
 
+    public static List<AppointmentDTO> mapAppointmentListToDTOList(List<Appointment> appointments) {
+        return appointments.stream()
+                .map(Utils::mapAppointmentToDTO)
+                .collect(Collectors.toList());
+    }
 
     // ------------------- DOCTOR -------------------
 
-    // Map Doctor to DTO (without appointments)
     public static DoctorDTO mapDoctorToDTO(Doctor doctor) {
-
         User user = doctor.getUser();
         DoctorDTO dto = new DoctorDTO();
 
+        dto.setId(doctor.getId());
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
         dto.setPhoneNumber(user.getPhoneNumber());
@@ -49,16 +50,16 @@ public class Utils {
         dto.setAddress(user.getAddress());
         dto.setDateOfBirth(String.valueOf(user.getDateOfBirth()));
 
-        dto.setId(doctor.getId());
         dto.setExperience(doctor.getExperience());
         dto.setSpecialization(doctor.getSpecialization());
         dto.setAvailableHours(doctor.getAvailableHours());
+
         return dto;
     }
 
-    // Map Doctor to DTO with Appointments (used only when required)
     public static DoctorDTO mapDoctorToDTOWithAppointments(Doctor doctor) {
         DoctorDTO dto = mapDoctorToDTO(doctor);
+
         if (doctor.getAppointments() != null) {
             dto.setAppointments(
                     doctor.getAppointments().stream()
@@ -66,14 +67,17 @@ public class Utils {
                             .collect(Collectors.toList())
             );
         }
+
         return dto;
+    }
+
+    public static List<DoctorDTO> mapDoctorListToDTOList(List<Doctor> doctors) {
+        return doctors.stream().map(Utils::mapDoctorToDTO).toList();
     }
 
     // ------------------- PATIENT -------------------
 
-    // Map Patient to DTO (without appointments)
     public static PatientDTO mapPatientToDTO(Patient patient) {
-
         User user = patient.getUser();
         PatientDTO dto = new PatientDTO();
 
@@ -86,12 +90,11 @@ public class Utils {
         dto.setDateOfBirth(String.valueOf(user.getDateOfBirth()));
 
         return dto;
-
     }
 
-    // Map Patient to DTO with Appointments (used only when required)
     public static PatientDTO mapPatientToDTOWithAppointments(Patient patient) {
         PatientDTO dto = mapPatientToDTO(patient);
+
         if (patient.getAppointments() != null) {
             dto.setAppointments(
                     patient.getAppointments().stream()
@@ -99,12 +102,16 @@ public class Utils {
                             .collect(Collectors.toList())
             );
         }
+
         return dto;
+    }
+
+    public static List<PatientDTO> mapPatientListToDTOList(List<Patient> patients) {
+        return patients.stream().map(Utils::mapPatientToDTO).toList();
     }
 
     // ------------------- USER -------------------
 
-    // Map User to DTO (safe data only)
     public static UserDTO mapUserToDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
@@ -116,32 +123,14 @@ public class Utils {
         return dto;
     }
 
-
     public static List<UserDTO> mapUserListToDTOList(List<User> users) {
         return users.stream().map(Utils::mapUserToDTO).toList();
     }
 
-    public static List<PatientDTO> mapPatientListToDTOList(List<Patient> patients) {
-        return patients.stream().map(Utils::mapPatientToDTO).toList();
-    }
-
-    public static List<DoctorDTO> mapDoctorListToDTOList(List<Doctor> doctors) {
-        return doctors.stream().map(Utils::mapDoctorToDTO).toList();
-    }
-
-    public static List<AppointmentDTO> mapAppointmentListToDTOList(List<Appointment> appointments) {
-        return appointments.stream()
-                .map(Utils::mapAppointmentToDTO)
-                .collect(Collectors.toList());
-    }
-
     // ------------------- APPOINTMENT CODE GENERATOR -------------------
 
-    // Generate unique appointment code
     public static String generateAppointmentCode(int length) {
         String code = "APT-" + UUID.randomUUID().toString().replace("-", "").toUpperCase();
         return code.substring(0, Math.min(length + 4, code.length())); // +4 for "APT-"
     }
-
-
 }

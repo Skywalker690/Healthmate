@@ -9,7 +9,8 @@ import java.util.List;
 @Repository
 public interface DoctorRepository  extends JpaRepository<Doctor,Long> {
 
+    void deleteByUserId(Long userId);
+
     List<Doctor> findBySpecialization(String specialization);
 
-    void deleteByUserId(Long userId);
 }

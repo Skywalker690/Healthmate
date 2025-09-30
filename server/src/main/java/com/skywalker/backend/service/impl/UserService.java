@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -177,36 +176,6 @@ public class UserService implements IUserService {
         return response;
     }
 
-    @Transactional
-    @Override
-    public Response deleteUser(Long id) {
-        Response response = new Response();
-        try {
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new OurException("User not found, deletion failed"));
-
-            if (user.getRole() == USER_ROLE.ROLE_DOCTOR) {
-                doctorRepository.deleteByUserId(id);
-                response.setMessage("Doctor record deleted");
-            } else if (user.getRole() == USER_ROLE.ROLE_PATIENT) {
-                patientRepository.deleteByUserId(id);
-                response.setMessage("Patient record deleted");
-            }
-
-            userRepository.delete(user);
-            response.setStatusCode(200);
-            response.setMessage(response.getMessage() + " and user deleted successfully");
-
-        } catch (OurException e) {
-            response.setStatusCode(400);
-            response.setMessage(e.getMessage());
-        } catch (Exception e) {
-            response.setStatusCode(500);
-            response.setMessage("Error occurred while deleting user: " + e.getMessage());
-        }
-        return response;
-    }
-
     @Override
     public Response changePassword(PasswordChangeRequest request) {
         Response response = new Response();
@@ -328,7 +297,7 @@ public class UserService implements IUserService {
                     .orElseThrow(() -> new OurException("User not found with id " + id));
 
             user.setName(updatedUser.getName());
-            user.setRole(updatedUser.getRole());
+            user.setGender(updatedUser.getGender());
             user.setAddress(updatedUser.getAddress());
             user.setPhoneNumber(updatedUser.getPhoneNumber());
             user.setDateOfBirth(updatedUser.getDateOfBirth());
@@ -343,6 +312,36 @@ public class UserService implements IUserService {
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error occurred while getting current users by role: " + e.getMessage());
+        }
+        return response;
+    }
+
+    @Transactional
+    @Override
+    public Response deleteUser(Long id) {
+        Response response = new Response();
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new OurException("User not found, deletion failed"));
+
+            if (user.getRole() == USER_ROLE.ROLE_DOCTOR) {
+                doctorRepository.deleteByUserId(id);
+                response.setMessage("Doctor record deleted");
+            } else if (user.getRole() == USER_ROLE.ROLE_PATIENT) {
+                patientRepository.deleteByUserId(id);
+                response.setMessage("Patient record deleted");
+            }
+
+            userRepository.delete(user);
+            response.setStatusCode(200);
+            response.setMessage(response.getMessage() + " and user deleted successfully");
+
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while deleting user: " + e.getMessage());
         }
         return response;
     }

@@ -1,8 +1,10 @@
 package com.skywalker.backend.controller;
 
 import com.skywalker.backend.dto.Response;
+import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.impl.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,18 +17,28 @@ public class PatientController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response getAllPatients() {
-        return patientService.getAllPatients();
+    public ResponseEntity<Response> getAllPatients() {
+        Response response = patientService.getAllPatients();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{id}")
-    public Response getPatientById(@PathVariable Long id) {
-        return patientService.getPatientById(id);
+    public ResponseEntity<Response> getPatientById(@PathVariable Long id) {
+        Response response = patientService.getPatientById(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Response> updatePatient(@PathVariable Long id, @RequestBody User request) {
+        Response response = patientService.updatePatient(id, request);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response deletePatient(@PathVariable Long id) {
-        return patientService.deletePatient(id);
+    public ResponseEntity<Response> deletePatient(@PathVariable Long id) {
+        Response response = patientService.deletePatient(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }

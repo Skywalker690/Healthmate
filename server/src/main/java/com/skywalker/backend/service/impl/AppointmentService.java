@@ -1,5 +1,6 @@
 package com.skywalker.backend.service.impl;
 
+import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.dto.AppointmentDTO;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
@@ -13,7 +14,7 @@ import com.skywalker.backend.security.Utils;
 import com.skywalker.backend.service.repo.IAppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,9 +30,7 @@ public class AppointmentService implements IAppointmentService {
 
 
     @Override
-    public Response createAppointment(Long patientId,
-                                      Long doctorId,
-                                      Appointment appointmentRequest) {
+    public Response createAppointment(Long patientId, Long doctorId, Appointment appointmentRequest) {
         Response response = new Response();
         try {
             // Fetch Doctor and Patient first
@@ -69,7 +68,6 @@ public class AppointmentService implements IAppointmentService {
         }
         return response;
     }
-
 
     @Override
     public Response getAppointmentById(Long id) {
@@ -151,13 +149,13 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public Response updateAppointmentStatus(Long id, String status) {
+    public Response updateAppointmentStatus(Long id, @RequestBody STATUS status) {
         Response response = new Response();
         try {
             Appointment appointment = appointmentRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-            appointment.setStatus(Enum.valueOf(com.skywalker.backend.domain.STATUS.class, status));
+            appointment.setStatus(status);
             Appointment updatedAppointment = appointmentRepository.save(appointment);
 
             AppointmentDTO appointmentDTO = Utils.mapAppointmentToDTO(updatedAppointment);
@@ -208,7 +206,6 @@ public class AppointmentService implements IAppointmentService {
         }
         return response;
     }
-
 
 
 
