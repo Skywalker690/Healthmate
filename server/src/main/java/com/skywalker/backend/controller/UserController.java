@@ -5,6 +5,7 @@ import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class UserController {
     private final IUserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Response getAllUsers() {
         return userService.getAllUsers();
     }
@@ -27,6 +29,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Response deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }

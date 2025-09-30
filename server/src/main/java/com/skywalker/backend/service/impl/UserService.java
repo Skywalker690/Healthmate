@@ -13,6 +13,7 @@ import com.skywalker.backend.model.User;
 import com.skywalker.backend.repository.DoctorRepository;
 import com.skywalker.backend.repository.PatientRepository;
 import com.skywalker.backend.repository.UserRepository;
+import com.skywalker.backend.security.CustomUserDetails;
 import com.skywalker.backend.security.JwtTokenProvider;
 import com.skywalker.backend.security.Utils;
 import com.skywalker.backend.service.repo.IUserService;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -206,4 +208,6 @@ public class UserService implements IUserService {
         }
         return response;
     }
+
+
 }
