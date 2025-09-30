@@ -3,7 +3,6 @@ package com.skywalker.backend.service.impl;
 import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.dto.AppointmentDTO;
 import com.skywalker.backend.dto.Response;
-import com.skywalker.backend.dto.StatusRequest;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Appointment;
 import com.skywalker.backend.model.Doctor;
@@ -15,9 +14,7 @@ import com.skywalker.backend.security.Utils;
 import com.skywalker.backend.service.repo.IAppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
