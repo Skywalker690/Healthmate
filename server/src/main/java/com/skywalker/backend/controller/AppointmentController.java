@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.Appointment;
 import com.skywalker.backend.service.impl.AppointmentService;
@@ -50,9 +51,9 @@ public class AppointmentController {
         return appointmentService.getAppointmentsByPatient(patientId);
     }
 
-    @PutMapping("/{id}/status/{status}")
+    @PutMapping("/{id}/status")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response updateAppointmentStatus(@PathVariable Long id, @PathVariable String status) {
+    public Response updateAppointmentStatus(@PathVariable Long id, @RequestBody STATUS status) {
         return appointmentService.updateAppointmentStatus(id, status);
     }
 

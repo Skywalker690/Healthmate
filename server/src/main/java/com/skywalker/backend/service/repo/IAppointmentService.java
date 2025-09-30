@@ -1,5 +1,6 @@
 package com.skywalker.backend.service.repo;
 
+import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.Appointment;
 
@@ -17,7 +18,7 @@ public interface IAppointmentService {
 
     Response getAllAppointments();
 
-    Response updateAppointmentStatus(Long id, String status);
+    Response updateAppointmentStatus(Long id, STATUS status);
 
     Response deleteAppointment(Long id);
 }

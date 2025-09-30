@@ -36,7 +36,7 @@ public class DoctorController {
         return doctorService.getDoctorsBySpecialization(spec);
     }
 
-    @PutMapping("/doctors/{id}")
+    @PutMapping("/{id}")
     public Response updateDoctor(@PathVariable Long id, @RequestBody Doctor request) {
         return doctorService.updateDoctor(id, request);
     }

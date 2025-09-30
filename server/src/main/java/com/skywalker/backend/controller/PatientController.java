@@ -25,7 +25,7 @@ public class PatientController {
         return patientService.getPatientById(id);
     }
 
-    @PutMapping("/patients/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Response updatePatient(@PathVariable Long id, @RequestBody User request) {
         return patientService.updatePatient(id, request);

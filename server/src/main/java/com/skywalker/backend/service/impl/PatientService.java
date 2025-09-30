@@ -69,7 +69,7 @@ public class PatientService implements IPatientService {
             if (request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
             if (request.getAddress() != null) user.setAddress(request.getAddress());
             if (request.getDateOfBirth() != null) user.setDateOfBirth(request.getDateOfBirth());
-            userRepository.save(user);
+            patientRepository.save(patient);
 
             response.setStatusCode(200);
             response.setMessage("Patient updated successfully");

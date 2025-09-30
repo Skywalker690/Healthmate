@@ -1,5 +1,6 @@
 package com.skywalker.backend.service.impl;
 
+import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.dto.AppointmentDTO;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
@@ -148,13 +149,13 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public Response updateAppointmentStatus(Long id, String status) {
+    public Response updateAppointmentStatus(Long id, STATUS status) {
         Response response = new Response();
         try {
             Appointment appointment = appointmentRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-            appointment.setStatus(Enum.valueOf(com.skywalker.backend.domain.STATUS.class, status));
+            appointment.setStatus(status);
             Appointment updatedAppointment = appointmentRepository.save(appointment);
 
             AppointmentDTO appointmentDTO = Utils.mapAppointmentToDTO(updatedAppointment);
