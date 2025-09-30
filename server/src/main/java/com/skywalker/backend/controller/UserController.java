@@ -2,14 +2,12 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.dto.PasswordChangeRequest;
 import com.skywalker.backend.dto.Response;
-import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.User;
 import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,45 +18,53 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<Response> getAllUsers() {
+        Response response = userService.getAllUsers();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/{id}")
-    public Response getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<Response> getUserById(@PathVariable Long id) {
+        Response response = userService.getUserById(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/me/password")
-    public Response changePassword(@RequestBody PasswordChangeRequest request) {
-        return userService.changePassword(request);
+    public ResponseEntity<Response> changePassword(@RequestBody PasswordChangeRequest request) {
+        Response response = userService.changePassword(request);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/me")
-    public Response getCurrentUser() {
-        return userService.getCurrentUser();
+    public ResponseEntity<Response> getCurrentUser() {
+        Response response = userService.getCurrentUser();
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/me")
-    public Response updateCurrentUser(@RequestBody User updatedUser) {
-        return userService.updateCurrentUser(updatedUser);
+    public ResponseEntity<Response> updateCurrentUser(@RequestBody User updatedUser) {
+        Response response = userService.updateCurrentUser(updatedUser);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
+    public ResponseEntity<Response> deleteUser(@PathVariable Long id) {
+        Response response = userService.deleteUser(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @GetMapping("/role/{role}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response getUsersByRole(@PathVariable String role) {
-        return userService.getUsersByRole(role);
+    public ResponseEntity<Response> getUsersByRole(@PathVariable String role) {
+        Response response = userService.getUsersByRole(role);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    Response updateUser(Long id, User updatedUser) {
-        return userService.updateUser(id,updatedUser);
+    public ResponseEntity<Response> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        Response response = userService.updateUser(id, updatedUser);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 }
