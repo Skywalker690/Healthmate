@@ -2,6 +2,7 @@ package com.skywalker.backend.controller;
 
 import com.skywalker.backend.domain.STATUS;
 import com.skywalker.backend.dto.Response;
+import com.skywalker.backend.dto.StatusRequest;
 import com.skywalker.backend.model.Appointment;
 import com.skywalker.backend.service.impl.AppointmentService;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,8 @@ public class AppointmentController {
 
     @PutMapping("/{id}/status")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public Response updateAppointmentStatus(@PathVariable Long id, @RequestBody STATUS status) {
-        return appointmentService.updateAppointmentStatus(id, status);
+    public Response updateAppointmentStatus(@PathVariable Long id, @RequestBody StatusRequest statusRequest) {
+        return appointmentService.updateAppointmentStatus(id, STATUS.valueOf(statusRequest.getStatus().toUpperCase()));
     }
 
     @DeleteMapping("/{id}")

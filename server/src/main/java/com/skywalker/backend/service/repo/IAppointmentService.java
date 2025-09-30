@@ -18,7 +18,7 @@ public interface IAppointmentService {
 
     Response getAllAppointments();
 
-    Response updateAppointmentStatus(Long id, STATUS status);
+    Response updateAppointmentStatus(Long id, STATUS  status);
 
     Response deleteAppointment(Long id);
 }
