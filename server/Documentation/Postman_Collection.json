@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "Skywalker Backend API Full",
+    "_postman_id": "f8a9d8a5-3f2c-44b6-a90e-full123456",
+    "description": "Full Postman collection for Auth, Users, Doctors, Patients, and Appointments including admin/doctor/patient registration and login",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\",\n  \"role\": \"ROLE_ADMIN\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register Doctor",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dr. Smith\",\n  \"email\": \"drsmith@example.com\",\n  \"password\": \"doctor123\",\n  \"role\": \"ROLE_DOCTOR\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register Patient",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"patient123\",\n  \"role\": \"ROLE_PATIENT\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        { "name": "Get All Users", "request": { "method": "GET", "url": "{{baseUrl}}/api/users" } },
+        { "name": "Get User By ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/users/1" } },
+        { "name": "Get Current User", "request": { "method": "GET", "url": "{{baseUrl}}/api/users/me" } },
+        { "name": "Update Current User", "request": { "method": "PUT", "url": "{{baseUrl}}/api/users/me" } },
+        { "name": "Change Password", "request": { "method": "PUT", "url": "{{baseUrl}}/api/users/me/password" } },
+        { "name": "Update User by ID", "request": { "method": "PUT", "url": "{{baseUrl}}/api/users/1" } },
+        { "name": "Get Users By Role", "request": { "method": "GET", "url": "{{baseUrl}}/api/users/role/ROLE_DOCTOR" } },
+        { "name": "Delete User", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/users/1" } }
+      ]
+    },
+    {
+      "name": "Doctors",
+      "item": [
+        { "name": "Get All Doctors", "request": { "method": "GET", "url": "{{baseUrl}}/api/doctors" } },
+        { "name": "Get Doctor By ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/doctors/1" } },
+        { "name": "Get Doctors By Specialization", "request": { "method": "GET", "url": "{{baseUrl}}/api/doctors/specialization/Cardiology" } },
+        { "name": "Update Doctor", "request": { "method": "PUT", "url": "{{baseUrl}}/api/doctors/1" } },
+        { "name": "Delete Doctor", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/doctors/1" } }
+      ]
+    },
+    {
+      "name": "Patients",
+      "item": [
+        { "name": "Get All Patients", "request": { "method": "GET", "url": "{{baseUrl}}/api/patients" } },
+        { "name": "Get Patient By ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/patients/1" } },
+        { "name": "Update Patient", "request": { "method": "PUT", "url": "{{baseUrl}}/api/patients/1" } },
+        { "name": "Delete Patient", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/patients/1" } }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        { "name": "Create Appointment", "request": { "method": "POST", "url": "{{baseUrl}}/api/appointments/1/1" } },
+        { "name": "Get Appointment By ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/appointments/1" } },
+        { "name": "Get Appointment By Code", "request": { "method": "GET", "url": "{{baseUrl}}/api/appointments/code/ABCD1234" } },
+        { "name": "Get Appointments By Doctor", "request": { "method": "GET", "url": "{{baseUrl}}/api/appointments/doctor/1" } },
+        { "name": "Get Appointments By Patient", "request": { "method": "GET", "url": "{{baseUrl}}/api/appointments/patient/1" } },
+        { "name": "Get All Appointments", "request": { "method": "GET", "url": "{{baseUrl}}/api/appointments" } },
+        { "name": "Update Appointment Status", "request": { "method": "PUT", "url": "{{baseUrl}}/api/appointments/1/status" } },
+        { "name": "Delete Appointment", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/appointments/1" } }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "email", "value": "john@example.com" },
+    { "key": "password", "value": "patient123" }
+  ]
+}
