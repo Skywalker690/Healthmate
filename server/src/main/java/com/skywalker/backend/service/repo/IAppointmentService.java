@@ -5,11 +5,13 @@ import com.skywalker.backend.model.Appointment;
 
 public interface IAppointmentService {
 
-    Response createAppointment(Appointment appointmentRequest);
+    Response createAppointment(Long patientId, Long doctorId, Appointment appointmentRequest);
 
     Response getAppointmentById(Long id);
 
     Response getAppointmentsByDoctor(Long doctorId);
+
+    Response getAppointmentByCode(String appointmentCode);
 
     Response getAppointmentsByPatient(Long patientId);
 

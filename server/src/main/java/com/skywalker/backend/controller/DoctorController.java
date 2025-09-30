@@ -6,6 +6,7 @@ import com.skywalker.backend.model.Doctor;
 import com.skywalker.backend.service.impl.DoctorService;
 import com.skywalker.backend.service.repo.IDoctorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class DoctorController {
 
 
     @GetMapping
+
     public Response getAllDoctors() {
         return doctorService.getAllDoctors();
     }
@@ -34,6 +36,7 @@ public class DoctorController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Response deleteDoctor(@PathVariable Long id) {
         return doctorService.deleteDoctor(id);
     }

@@ -1,6 +1,7 @@
 package com.skywalker.backend.service.repo;
 
 import com.skywalker.backend.dto.LoginRequest;
+import com.skywalker.backend.dto.PasswordChangeRequest;
 import com.skywalker.backend.dto.RegisterRequest;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.User;
@@ -13,6 +14,14 @@ public interface IUserService {
     Response getAllUsers();
     Response deleteUser(Long id);
 
-    Response register(RegisterRequest request);
     Response login(LoginRequest loginRequest);
+    Response register(RegisterRequest request);
+
+    // Self-service
+    Response getCurrentUser();
+    Response updateCurrentUser(User updatedUser);
+    Response changePassword(PasswordChangeRequest request);
+
+    Response getUsersByRole(String role);
+    Response updateUser(Long id, User updatedUser);
 }
