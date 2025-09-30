@@ -55,4 +55,10 @@ public class UserController {
     public Response getUsersByRole(@PathVariable String role) {
         return userService.getUsersByRole(role);
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    Response updateUser(Long id, User updatedUser) {
+        return userService.updateUser(id,updatedUser);
+    }
 }

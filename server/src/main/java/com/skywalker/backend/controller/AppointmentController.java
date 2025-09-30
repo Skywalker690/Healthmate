@@ -33,6 +33,11 @@ public class AppointmentController {
         return appointmentService.getAppointmentById(id);
     }
 
+    @GetMapping("/code/{appointmentCode}")
+    public Response getAppointmentByCode(@PathVariable String appointmentCode) {
+        return appointmentService.getAppointmentByCode(appointmentCode);
+    }
+
     @GetMapping("/doctor/{doctorId}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Response getAppointmentsByDoctor(@PathVariable Long doctorId) {

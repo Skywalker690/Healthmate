@@ -11,6 +11,8 @@ public interface IAppointmentService {
 
     Response getAppointmentsByDoctor(Long doctorId);
 
+    Response getAppointmentByCode(String appointmentCode);
+
     Response getAppointmentsByPatient(Long patientId);
 
     Response getAllAppointments();

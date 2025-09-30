@@ -23,4 +23,5 @@ public interface IUserService {
     Response changePassword(PasswordChangeRequest request);
 
     Response getUsersByRole(String role);
+    Response updateUser(Long id, User updatedUser);
 }

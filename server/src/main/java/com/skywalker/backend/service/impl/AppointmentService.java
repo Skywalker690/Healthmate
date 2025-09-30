@@ -189,6 +189,30 @@ public class AppointmentService implements IAppointmentService {
         }
         return response;
     }
+
+
+    public Response getAppointmentByCode(String appointmentCode) {
+        Response response = new Response();
+        try {
+            Appointment appointment = appointmentRepository.findByAppointmentCode(appointmentCode)
+                    .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+            response.setStatusCode(200);
+            response.setAppointment(Utils.mapAppointmentToDTO(appointment));
+        } catch (RuntimeException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error fetching appointment: " + e.getMessage());
+        }
+        return response;
+    }
+
+
+
+
+    // Helper
     private boolean isDoctorAvailable(Long doctorId, LocalDateTime appointmentDateTime) {
         List<Appointment> existingAppointments = appointmentRepository.findByDoctorIdAndAppointmentDateTime(doctorId, appointmentDateTime);
         return existingAppointments.isEmpty();

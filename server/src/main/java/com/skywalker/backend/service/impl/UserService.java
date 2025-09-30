@@ -319,4 +319,31 @@ public class UserService implements IUserService {
         }
         return response;
     }
+
+    @Override
+    public Response updateUser(Long id, User updatedUser) {
+        Response response = new Response();
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new OurException("User not found with id " + id));
+
+            user.setName(updatedUser.getName());
+            user.setRole(updatedUser.getRole());
+            user.setAddress(updatedUser.getAddress());
+            user.setPhoneNumber(updatedUser.getPhoneNumber());
+            user.setDateOfBirth(updatedUser.getDateOfBirth());
+
+            userRepository.save(user);
+            response.setStatusCode(400);
+            response.setMessage("User Updated ");
+            response.setUser(Utils.mapUserToDTO(user));
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while getting current users by role: " + e.getMessage());
+        }
+        return response;
+    }
 }
