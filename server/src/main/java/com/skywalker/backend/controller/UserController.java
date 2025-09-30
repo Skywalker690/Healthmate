@@ -1,5 +1,6 @@
 package com.skywalker.backend.controller;
 
+import com.skywalker.backend.dto.PasswordChangeRequest;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.User;
@@ -28,9 +29,30 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @PutMapping("/me/password")
+    public Response changePassword(@RequestBody PasswordChangeRequest request) {
+        return userService.changePassword(request);
+    }
+
+    @GetMapping("/me")
+    public Response getCurrentUser() {
+        return userService.getCurrentUser();
+    }
+
+    @PutMapping("/me")
+    public Response updateCurrentUser(@RequestBody User updatedUser) {
+        return userService.updateCurrentUser(updatedUser);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Response deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
+    }
+
+    @GetMapping("/role/{role}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public Response getUsersByRole(@PathVariable String role) {
+        return userService.getUsersByRole(role);
     }
 }

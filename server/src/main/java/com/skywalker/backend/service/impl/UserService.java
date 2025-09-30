@@ -2,10 +2,7 @@ package com.skywalker.backend.service.impl;
 
 import com.skywalker.backend.domain.GENDER;
 import com.skywalker.backend.domain.USER_ROLE;
-import com.skywalker.backend.dto.LoginRequest;
-import com.skywalker.backend.dto.RegisterRequest;
-import com.skywalker.backend.dto.Response;
-import com.skywalker.backend.dto.UserDTO;
+import com.skywalker.backend.dto.*;
 import com.skywalker.backend.exception.OurException;
 import com.skywalker.backend.model.Doctor;
 import com.skywalker.backend.model.Patient;
@@ -28,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -144,6 +142,21 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Response getAllUsers() {
+        Response response = new Response();
+        try {
+            List<User> users = userRepository.findAll();
+            response.setUserList(Utils.mapUserListToDTOList(users));
+            response.setStatusCode(200);
+            response.setMessage("Users fetched successfully");
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while fetching users: " + e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
     public Response getUserById(Long id) {
         Response response = new Response();
         try {
@@ -160,21 +173,6 @@ public class UserService implements IUserService {
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error occurred while fetching user: " + e.getMessage());
-        }
-        return response;
-    }
-
-    @Override
-    public Response getAllUsers() {
-        Response response = new Response();
-        try {
-            List<User> users = userRepository.findAll();
-            response.setUserList(Utils.mapUserListToDTOList(users));
-            response.setStatusCode(200);
-            response.setMessage("Users fetched successfully");
-        } catch (Exception e) {
-            response.setStatusCode(500);
-            response.setMessage("Error occurred while fetching users: " + e.getMessage());
         }
         return response;
     }
@@ -209,5 +207,116 @@ public class UserService implements IUserService {
         return response;
     }
 
+    @Override
+    public Response changePassword(PasswordChangeRequest request) {
+        Response response = new Response();
+        try {
+            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
 
+            User user = userRepository.findById(userDetails.getId())
+                    .orElseThrow(() -> new OurException("User not found"));
+
+            if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+                throw new OurException("Old password is incorrect");
+            }
+
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+            response.setMessage("Password changed successfully ");
+            response.setStatusCode(200);
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while deleting user: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public Response getCurrentUser() {
+        Response response = new Response();
+        try {
+            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+
+            User user = userRepository.findById(userDetails.getId())
+                    .orElseThrow(() -> new OurException("User not found"));
+
+            response.setStatusCode(200);
+            response.setMessage("Fetch Success");
+            response.setUser(Utils.mapUserToDTO(user));
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while getting current user: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public Response updateCurrentUser(User updatedUser) {
+        Response response = new Response();
+        try {
+            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+
+            User user = userRepository.findById(userDetails.getId())
+                    .orElseThrow(() -> new OurException("User not found"));
+
+            user.setName(updatedUser.getName());
+            user.setAddress(updatedUser.getAddress());
+            user.setPhoneNumber(updatedUser.getPhoneNumber());
+            user.setDateOfBirth(updatedUser.getDateOfBirth());
+            userRepository.save(user);
+
+            response.setStatusCode(200);
+            response.setMessage("User updated successfully");
+            response.setUser(Utils.mapUserToDTO(user));
+
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while getting current user: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+    @Override
+    public Response getUsersByRole(String role) {
+        Response response = new Response();
+        try {
+            List<UserDTO> users = userRepository.findAll()
+                    .stream()
+                    .filter(u -> u.getRole().name().equalsIgnoreCase(role))
+                    .map(Utils::mapUserToDTO)
+                    .toList();
+
+            response.setStatusCode(200);
+            response.setMessage("User fetched successfully");
+            response.setUserList(users);
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while getting current users by role: " + e.getMessage());
+        }
+        return response;
+    }
 }
