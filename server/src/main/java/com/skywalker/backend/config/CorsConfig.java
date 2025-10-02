@@ -14,10 +14,13 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://healthmate-1f7i.onrender.com") // ✅ specific frontend URL
+                        .allowedOrigins(
+                                "https://healthmate-1f7i.onrender.com",
+                                "http://localhost:8080"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true); // ✅ must be true if you send JWT or cookies
+                        .allowCredentials(true);
             }
         };
     }
