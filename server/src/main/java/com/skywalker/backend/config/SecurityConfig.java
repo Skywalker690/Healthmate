@@ -31,8 +31,8 @@ public class SecurityConfig {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
                     config.setAllowedOrigins(List.of(
-                            "https://healthmate-1f7i.onrender.com",
-                            "http://localhost:8080"
+                            "https://healthmate-rose.vercel.app",
+                            "http://localhost:3000"
                     ));
                     // your React app
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
