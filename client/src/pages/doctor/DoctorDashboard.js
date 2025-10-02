@@ -49,7 +49,7 @@ const DoctorDashboard = () => {
         {/* Header */}
         <div className="bg-gradient-to-r from-primary to-secondary rounded-xl shadow-lg p-6 sm:p-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-            Welcome back, Dr. {user?.name}!
+            Welcome back, {user?.name}!
           </h1>
           <p className="text-white/90">Here's your medical practice overview for today</p>
         </div>

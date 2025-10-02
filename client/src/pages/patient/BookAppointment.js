@@ -91,24 +91,30 @@ const BookAppointment = () => {
   return (
     <DashboardLayout>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Book New Appointment</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">
+          Book New Appointment
+        </h1>
 
+        {/* Error Alert */}
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4
+                          dark:bg-red-900 dark:border-red-700 dark:text-red-200">
             {error}
           </div>
         )}
 
+        {/* Success Alert */}
         {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4
+                          dark:bg-green-900 dark:border-green-700 dark:text-green-200">
             {success}
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="doctorId" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="doctorId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Select Doctor *
               </label>
               <select
@@ -117,7 +123,9 @@ const BookAppointment = () => {
                 value={formData.doctorId}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 
+                           rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500
+                           dark:bg-gray-800 dark:text-gray-100"
               >
                 <option value="">Choose a doctor...</option>
                 {doctors.map((doctor) => (
@@ -129,7 +137,7 @@ const BookAppointment = () => {
             </div>
 
             <div>
-              <label htmlFor="appointmentDateTime" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="appointmentDateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Appointment Date & Time *
               </label>
               <input
@@ -139,12 +147,14 @@ const BookAppointment = () => {
                 value={formData.appointmentDateTime}
                 onChange={handleChange}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700
+                           rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500
+                           dark:bg-gray-800 dark:text-gray-100"
               />
             </div>
 
             <div>
-              <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Notes (optional)
               </label>
               <textarea
@@ -153,7 +163,9 @@ const BookAppointment = () => {
                 rows="4"
                 value={formData.notes}
                 onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700
+                           rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500
+                           dark:bg-gray-800 dark:text-gray-100"
                 placeholder="Any specific concerns or requirements..."
               />
             </div>
@@ -162,7 +174,8 @@ const BookAppointment = () => {
               <button
                 type="submit"
                 disabled={booking}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md
+                           transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {booking ? 'Booking...' : 'Book Appointment'}
               </button>
