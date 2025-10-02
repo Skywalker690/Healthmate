@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.skywalker.backend.domain.GENDER;
 import com.skywalker.backend.domain.USER_ROLE;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Past;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -58,7 +60,8 @@ public class User implements UserDetails {
 
 
     @Column(nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy") // e.g., 01-01-1999
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Past(message = "Invalid DOB")
     private LocalDate dateOfBirth;
 
     @Column(nullable = false)

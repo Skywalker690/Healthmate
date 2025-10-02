@@ -14,12 +14,11 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*")  // Allow all origins
+                        .allowedOrigins("http://localhost:3000") // ✅ specific frontend URL
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(false);
+                        .allowCredentials(true); // ✅ must be true if you send JWT or cookies
             }
         };
     }
 }
-

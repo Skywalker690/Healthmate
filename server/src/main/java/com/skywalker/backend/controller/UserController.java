@@ -3,6 +3,7 @@ package com.skywalker.backend.controller;
 import com.skywalker.backend.dto.PasswordChangeRequest;
 import com.skywalker.backend.dto.Response;
 import com.skywalker.backend.model.User;
+import com.skywalker.backend.service.impl.UserService;
 import com.skywalker.backend.service.repo.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final IUserService userService;
+    private final UserService userService;
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
