@@ -16,7 +16,6 @@ import {
   EnvelopeIcon,
   SparklesIcon,
   BoltIcon,
-  PlayCircleIcon,
   CheckIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
